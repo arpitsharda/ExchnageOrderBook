@@ -10,12 +10,12 @@ import java.time.ZoneOffset
 
 class OrderBookTest {
 
-    private lateinit var orderBook: OrderBook;
+    private lateinit var orderBook: OrderBook
 
     @BeforeEach
     fun setUp() {
-        orderBook = OrderBook();
-        addBidsToOrderBook();
+        orderBook = OrderBook()
+        addBidsToOrderBook()
         addOffersToOrderBook()
     }
 
@@ -34,24 +34,24 @@ class OrderBookTest {
             5000L,
             today.withHour(12).withMinute(0).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
             Side.SELL
-        );
+        )
         val order5 = Order(
             5,
             130.68,
             2000L,
             today.withHour(12).withMinute(0).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
             Side.SELL
-        );
+        )
         val order6 = Order(
             6,
             130.68,
             2000L,
             today.withHour(13).withMinute(5).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
             Side.SELL
-        );
+        )
 
         // sorted by Arrival Time
-        arrayOf(order4, order6, order5).forEach { orderBook.addOrder(it) };
+        arrayOf(order4, order6, order5).forEach { orderBook.addOrder(it) }
     }
 
 
@@ -69,30 +69,30 @@ class OrderBookTest {
             1000L,
             today.withHour(13).withMinute(0).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
             Side.BUY
-        );
+        )
         val order2 = Order(
             2,
             130.60,
             2000L,
             today.withHour(12).withMinute(5).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
             Side.BUY
-        );
+        )
         val order3 = Order(
             3,
             130.60,
             2000L,
             today.withHour(13).withMinute(5).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
             Side.BUY
-        );
+        )
 
         // sorted by Arrival Time
-        arrayOf(order1, order3, order2).forEach { orderBook.addOrder(it) };
+        arrayOf(order1, order3, order2).forEach { orderBook.addOrder(it) }
     }
 
     @Test
     @DisplayName("Should Add the Order to correct side of the order book")
     fun addOrder() {
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
         assertEquals(orderBook.getLevelPrice(Side.BUY, 1), 130.65)
         assertEquals(orderBook.getLevelPrice(Side.BUY, 2), 130.60)
 
@@ -106,37 +106,39 @@ class OrderBookTest {
     @Test
     @DisplayName("Should remove an order from Order book when requested")
     fun removeOrder() {
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
         orderBook.removeOrder(3)
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
     }
 
     @Test
     @DisplayName("Should modify an order in Order book and update notional when requested")
     fun modifyOrder() {
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
         orderBook.modifyOrder(3, 5000)
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
     }
 
     @Test
     @DisplayName("Should get all order from Order book by side")
     fun getOrders() {
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
         val buyOrders = orderBook.getOrders(Side.BUY)
         assertEquals(buyOrders.size, 3)
 
         val sellOrders = orderBook.getOrders(Side.SELL)
         assertEquals(sellOrders.size, 3)
 
-        orderBook.addOrder(Order(
-            7,
-            130.65,
-            2000L,
-            LocalDateTime.now().withHour(13).withMinute(5).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
-            Side.SELL
-        ))
-        orderBook.displayOrderBook();
+        orderBook.addOrder(
+            Order(
+                7,
+                130.65,
+                2000L,
+                LocalDateTime.now().withHour(13).withMinute(5).withSecond(0).withNano(0).toEpochSecond(ZoneOffset.UTC),
+                Side.SELL
+            )
+        )
+        orderBook.displayOrderBook()
 
         val sellOrdersAfterAdd = orderBook.getOrders(Side.SELL)
 
@@ -145,14 +147,14 @@ class OrderBookTest {
 
     @Test
     fun getLevelPrice() {
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
         assertEquals(orderBook.getLevelPrice(Side.BUY, 1), 130.65)
         assertEquals(orderBook.getLevelPrice(Side.SELL, 2), 130.7)
     }
 
     @Test
     fun getTotalVolume() {
-        orderBook.displayOrderBook();
+        orderBook.displayOrderBook()
         assertEquals(orderBook.getTotalVolume(Side.BUY, 1), 1000)
         assertEquals(orderBook.getTotalVolume(Side.SELL, 2), 5000)
     }
