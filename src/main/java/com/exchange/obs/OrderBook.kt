@@ -1,6 +1,7 @@
 package com.exchange.obs
 
 import com.exchange.obs.domain.Side
+import org.slf4j.LoggerFactory
 import java.util.*
 import kotlin.streams.toList
 
@@ -11,8 +12,10 @@ class OrderBook : IOrderBook {
         TreeMap<Double, PriorityQueue<Order>>(Comparator.naturalOrder()) // highest price priority 1
 
     private val orderMap: MutableMap<Int, Order> = HashMap()
+    private val logger = LoggerFactory.getLogger(OrderBook::class.java)
 
     override fun addOrder(order: Order) {
+        logger.info("Adding order $order")
         val orderBook: TreeMap<Double, PriorityQueue<Order>> = getOrderBookBySide(order.side)
 
         orderBook.putIfAbsent(
@@ -24,6 +27,7 @@ class OrderBook : IOrderBook {
     }
 
     override fun removeOrder(orderId: Int) {
+        logger.info("Removing order $orderId")
         val order: Order? = orderMap[orderId]
         order?.let {
             val orderBookBySide = getOrderBookBySide(it.side)
@@ -35,6 +39,7 @@ class OrderBook : IOrderBook {
     }
 
     override fun modifyOrder(orderId: Int, newNotional: Long) {
+        logger.info("Modify order $orderId")
         val order = orderMap[orderId]
         order?.let {
             removeOrder(orderId)
@@ -63,19 +68,19 @@ class OrderBook : IOrderBook {
 
     override fun displayOrderBook() {
 
-        println("----------------------BID SIDE-------------------------------")
+        logger.info("----------------------BID SIDE-------------------------------")
         printOrderBook(buySideOrderBook)
 
-        println("----------------------OFFER SIDE-------------------------------")
+        logger.info("----------------------OFFER SIDE-------------------------------")
         printOrderBook(sellSideOrderBook)
     }
 
     private fun printOrderBook(oneSideOrderBook: TreeMap<Double, PriorityQueue<Order>>) {
         var level = 1
         oneSideOrderBook.forEach { levelEntry ->
-            println("Price Level $level : ${levelEntry.key}")
+            logger.info("Price Level $level : ${levelEntry.key}")
             levelEntry.value.forEach {
-                println("\t\t${it.orderId}, ${it.notional}, ${it.timestamp}")
+                logger.info("\t\t${it.orderId}, ${it.notional}, ${it.timestamp}")
             }
             level++
         }

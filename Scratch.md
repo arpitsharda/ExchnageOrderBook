@@ -68,11 +68,12 @@ buySideOrderBook
 [Order3, 130.60, 2000 ,Time 1:05PM] 
 
 
-To add ability to execute orders Matching engine should call order 
+To add ability to execute orders, Matching engine should  
+ * Apply pre trade rules
  * Add the Buy offer on the Bid side of the book.
  * For Buy Order check Order book for Opposite side [i.e Offer book] for orders at a price equal to order price or better. i.e. equal or lower than order limit price
  * If an eligible order is found in Offer book then remove/modify the Order and also matching order[s] on Offer book
- * send the trade information respective clients
+ * Send the trade information respective clients
 
 
 
