@@ -1,19 +1,19 @@
-package com.exchange.obs;
+package com.exchange.obs
 
-import com.exchange.obs.domain.Price;
-import com.exchange.obs.domain.Side;
+import com.exchange.obs.domain.Side
 
-public interface IOrderBook {
+interface IOrderBook {
+    fun addOrder(order: Order)
 
-    void addOrder(Order order);
+    fun removeOrder(orderId: Int)
 
-    void removeOrder(Order order);
+    fun modifyOrder(orderId: Int, newNotional: Long)
 
-    void modifyOrder(Order order);
+    fun getOrders(side: Side): List<Order>
 
-    void getOrders(char side);
+    fun getLevelPrice(side: Side, level: Int): Double
 
-    Price getLevelPrice(Side side, int level);
+    fun getTotalVolume(side: Side, level: Int): Long
 
-    void displayOrderBook();
+    fun displayOrderBook()
 }

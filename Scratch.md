@@ -66,3 +66,19 @@ buySideOrderBook
 [Order6, 130.65, 3000 ,Time 2:05PM]  -- this will trigger execution of 3000 BT@130.65 Second [Remove Order6]
 [Order2, 130.60, 2000 ,Time 12:05PM]
 [Order3, 130.60, 2000 ,Time 1:05PM] 
+
+
+To add ability to execute orders Matching engine should call order 
+ * Add the Buy offer on the Bid side of the book.
+ * For Buy Order check Order book for Opposite side [i.e Offer book] for orders at a price equal to order price or better. i.e. equal or lower than order limit price
+ * If an eligible order is found in Offer book then remove/modify the Order and also matching order[s] on Offer book
+ * send the trade information respective clients
+
+
+
+**Other consideration**
+Orders should have status so that they can be soft deleted
+Limit/Market orders Implementation
+Order book can be kept in memory but should be able to recreate the state by replaying logs on restart.
+Order cache can be backed by some store.
+Consider updating TreeMap and Hashmap to thread safe implementation. 
