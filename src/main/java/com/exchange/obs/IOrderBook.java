@@ -5,15 +5,15 @@ import com.exchange.obs.domain.Side;
 
 public interface IOrderBook {
 
-    public void addOrder(Order order);
+    void addOrder(Order order);
 
-    public void removeOrder(Order order);
+    void removeOrder(Order order);
 
-    public void modifyOrder(Order order);
+    void modifyOrder(Order order);
 
-    public void getOrders(char side);
+    void getOrders(char side);
 
-    public Price getLevelPrice(Side side, int level);
+    Price getLevelPrice(Side side, int level);
 
-    public void displayOrderBook();
+    void displayOrderBook();
 }

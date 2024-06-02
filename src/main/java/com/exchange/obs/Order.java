@@ -1,6 +1,6 @@
 package com.exchange.obs;
 
-import com.exchange.obs.domain.Side;
+
 import com.exchange.obs.domain.Side;
 
 public class Order {
